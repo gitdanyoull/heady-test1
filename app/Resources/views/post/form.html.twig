@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <div class="col-sm-12 col-lg-12 col-md-12">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('post') }}">Posts</a></li>
+            <li class="breadcrumb-item"><a href="#">Library</a></li>
+            <li class="breadcrumb-item active">Data</li>
+        </ol>
+        <div class="thumbnail">
+            <div class="caption">
+
+            {% for msg in app.session.flashBag.get('success') %}
+                <div class="alert alert-success">
+                    <strong>Success!</strong> Indicates a successful or positive action.
+                </div>
+            {% endfor %}
+
+            {{ form_start(form) }}
+                {{ form_row(form.title,{'label':'Post Title'}) }}
+                {{ form_row(form.artist,{'label':'Artist'}) }}
+                {{ form_row(form.price,{'label':'Price'}) }}
+                {{ form_row(form.purchaseDate,{'label':'Purchase Date'}) }}
+                {{ form_row(form.description,{'label':'Description'}) }}
+                {{ form_row(form.userId) }}
+                {{ form_row(form.id) }}
+                <button type="submit" style="margin: 5px" class="btn btn-default pull-right" formnovalidate>Save</button>
+            {{ form_end(form) }}
+
+
+            </div>
+        </div>
+
+    {% if images is not empty %}
+
+        <div class="thumbnail">
+
+            <div class="caption">
+
+                <button class="btn btn-default pull-left" style="margin: 5px" onclick="javascript: window.location='{{ path('add_image', {'postId': post.id, 'imageId': 1}) }}';">Add Image</button>
+
+                <table class="table table-striped">
+                    {% for i in images %}
+                        <tr>
+                            <td>
+                                {{i.name}}
+                            </td>
+                            <td>
+                                <input class="default_image" data-value="{{ i.imageId }}" type="radio" name="default_image" {% if i .ShowDefault == '1' %} checked {% endif  %}value="yes" />
+                            </td>
+                            <td>
+                                <a href="{{ path('edit_image', {'postId': i.postId,'imageId': i.imageId}) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                                <a href="{{ path('delete_image', {'postId': i.postId,'imageId': i.imageId}) }}" class="pull-right"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+                {{ form_start(image) }}
+                    {{ form_row(image.imageId, { 'attr': {'class': 'default_id'} }) }}
+                    {{ form_row(image.showDefault, { 'attr': {'class': 'default_note'} }) }}
+                {{ form_end(image) }}
+
+            </div>
+
+    </div>
+{% endif %}
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        $(document).ready( function() {
+
+            $('input[type=radio]').click( function() {
+                $('#set_image_form_imageId').val( $(this).attr("data-value")  );
+                var form = $('form[name="set_image_form"]').serializeArray();
+
+                $.ajax( {
+                    type: "POST",
+                    url: "{{ path('set_image') }}",
+                    data: {
+                        'form': form
+                    },
+                    success: function( response ) {
+                        console.log( response );
+                        $.growl.notice({
+                            title: "Growl",
+                            message: "Default picture assigned successfully"
+                        });
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+
+                        console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                    }
+                } );
+            } );
+
+        } );
+
+    </script>
+{% endblock %}
+

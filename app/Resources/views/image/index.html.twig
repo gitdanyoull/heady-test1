@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Manage Post Images - Wicked Heady
+{%  endblock %}
+{% block body %}
+
+{% for msg in app.session.flashBag.get('success') %}
+    <div class="alert alert-success">
+        <strong>Success!</strong> Indicates a successful or positive action.
+    </div>
+{% endfor %}
+<div class="col-sm-12 col-lg-12 col-md-12">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('post') }}">Posts</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('post_edit', {'id': post.id}) }}">Post</a></li>
+        <li class="breadcrumb-item active">Images</li>
+    </ol>
+    <div class="thumbnail">
+
+        <div class="caption">
+
+            {{ form_start(form) }}
+            {{ form_row(form.name,{'label':'Image Title'}) }}
+            {{ form_row(form.note,{'label':'Image Description'}) }}
+            {{ form_row(form.file,{'label':'Image'}) }}
+            <button type="submit" name="save" value="delete" class="btn btn-default" style="margin: 5px 0px" formnovalidate>Save</button>
+            {%  if image is not empty %}
+                <button type="submit" name="delete" value="delete" class="btn btn-danger pull-right" style="margin: 5px 0px" formnovalidate>Delete</button>
+            {% endif %}
+            {{ form_end(form) }}
+
+        </div>
+
+    </div>
+
+</div>
+    {%  if image is not empty %}
+<div class="col-sm-6 col-lg-6 col-md-6">
+    <img src="{{ asset('uploads/brochures/' ~ image.name) | imagine_filter('my_thumb') }}" />
+</div>
+<div class="col-sm-6 col-lg-6 col-md-6">
+    <div class="thumbnail">
+
+        <div class="caption">
+            Default Image: {{ image.showDefault }} <br />
+            Likes:
+        </div>
+
+    </div>
+</div>
+{% endif %}
+{% endblock %}
