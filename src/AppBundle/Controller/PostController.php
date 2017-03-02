@@ -13,6 +13,7 @@ use AppBundle\Form\ContactFormType;
 use AppBundle\Form\MessageFormType;
 use AppBundle\Form\SetImageFormType;
 use AppBundle\Service\PostRating;
+use AppBundle\Service\PostImage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,23 +59,28 @@ class PostController extends Controller
 
         // replace this example code with whatever you need
         return $this->render('post/form.html.twig', array(
-            'form' => $form->createView(),'post'=>$post,'postId'=>1
+            'form' => $form->createView(),'post'=>$post,'postId'=>1,
+            'images' => array()
         ));
     }
     /**
      * @Route("/post/edit/{id}", name="post_edit")
      */
-    public function editAction(Request $request,Post $post)
+    public function editAction(Request $request,Post $post,$id)
     {
         $user = $this->get('security.context')->getToken()->getUser();
         $userId = $user->getId();
-        $form = $this->createForm(new PostFormType( $userId ),$post);
+        $em = $this->getDoctrine()->getManager();
+
+
+        $form = $this->createForm(new PostFormType( $userId, $id ),$post);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $post = $form->getData();
-            $em = $this->getDoctrine()->getManager();
+
             $em->persist($post);
 
             $em->flush();
@@ -101,7 +107,10 @@ class PostController extends Controller
     public function viewAction(Request $request, $id)
     {
         $user = $this->get('security.context')->getToken()->getUser();
-        $userId = $user->getId();
+        if( $user!='anon.' )
+            $userId = $user->getId();
+        else
+            $userId = '';
 
         $post_repository = $this->getDoctrine()->getRepository('AppBundle:Post');
         $post= $post_repository->findOneBy(array('id'=>$id));
@@ -112,7 +121,9 @@ class PostController extends Controller
         $msg_repository = $this->getDoctrine()->getRepository('AppBundle:Message');
         $messages = $msg_repository->findAll();
 
-        $message = $this->createForm( new MessageFormType(), new Message() );
+        $message = $msg_repository->findOneBy(array('postId' => $post->getId(),'userId'=>$userId));
+
+        $message_form = $this->createForm( new MessageFormType(), new Message() );
 
         $contact = $this->createForm( new ContactFormType(), new Contact() );
 
@@ -125,9 +136,11 @@ class PostController extends Controller
             'post'=>$post,
             'images'=>$images,
             'contact' => $contact->createView(),
-            'message' => $message->createView(),
+            'message' => $message_form->createView(),
+            'review' => $message,
             'messages' => $messages,
             'ip' => $ip,
+            'user_id' => $userId,
             'ipRating' => $ipRating,
         ));
 

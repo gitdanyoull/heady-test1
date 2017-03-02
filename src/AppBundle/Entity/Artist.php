@@ -83,4 +83,8 @@ class Artist
         $this->bio = $bio;
     }
 
+    public function __toString()
+    {
+        return $this->getArtist();
+    }
 }

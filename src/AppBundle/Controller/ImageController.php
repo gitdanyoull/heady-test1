@@ -6,7 +6,7 @@ use AppBundle\Entity\Image;
 use AppBundle\Form\ImageFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\BrowserKit\Response;
+use AppBundle\Service\PostImage;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -29,7 +29,7 @@ class ImageController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             if( empty($request->request->get('delete')) ) {
-                $file = $image->getName();
+                $file = $image->getFile();
 
                 $image->setShowDefault('0');
 
@@ -39,14 +39,20 @@ class ImageController extends Controller
                     $this->getParameter('brochures_directory'),
                     $fileName
                 );
+                $image->setPostId($postId);
+                $image->setFile($fileName);
 
-                $image->setName($fileName);
+                $newImage = new PostImage($this->getDoctrine());
+                $ttl_images = $newImage->getIsFirst($postId);
 
-            }
-            else
+                if( $ttl_images==0 )
+                        $image->setShowDefault(1);
+
                 $em->persist($image);
+            }
+            else {
                 $em->remove($image);
-
+            }
             $em->flush();
             $this->addFlash('success', 'success');
             return $this->redirectToRoute('post');
@@ -74,7 +80,6 @@ class ImageController extends Controller
         $image= $image_repository->findOneBy(array('imageId'=>$imageId));
 
         $form = $this->createForm(new ImageFormType(), $image );
-
 
         $form->handleRequest($request);
 
@@ -124,8 +129,8 @@ class ImageController extends Controller
 
         $item = $em->getRepository('AppBundle:Image')->findBy(array('postId'=>$data[0]['value']));
 
-        $product = $em->getRepository('AppBundle:Image')->find($data[0]['value']);
-        $product->setShowDefault('1');
+        $image = $em->getRepository('AppBundle:Image')->find($data[0]['value']);
+        $image->setShowDefault('1');
 
         $em->flush();
 
@@ -140,12 +145,15 @@ class ImageController extends Controller
     public function deleteAction(Request $request, $postId, $imageId)
     {
         $image_repository = $this->getDoctrine()->getRepository('AppBundle:Image');
-        $image= $image_repository->findOneBy(array('imageId'=>$imageId));
+        $image = $image_repository->findOneBy(array('imageId'=>$imageId));
+        if( file_exists($image->getName()) )
+            unlink ( $image->getName() );
 
-        $form = $this->createForm(new ImageFormType(), $image );
+        $form = $this->createForm(new ImageFormType(), new Image() );
 
         $em = $this->getDoctrine()->getManager();
-        $em->persist($image);
+        $em->remove($image);
+
         $em->flush();
         $this->addFlash('success', 'success');
         return $this->redirectToRoute('post');

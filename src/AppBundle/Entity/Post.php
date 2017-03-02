@@ -44,10 +44,11 @@ class Post
     private $price;
 
     /**
-     * @ORM\Column(type="integer", length=8)
-     * @ORM\ManyToOne(targetEntity="Artist", inversedBy="post")
+     * @ORM\Column(type="text", length=8)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SArtist")
      * @ORM\JoinColumn(name="artist", referencedColumnName="artist_id")
      */
+
     private $artist;
 
     /**

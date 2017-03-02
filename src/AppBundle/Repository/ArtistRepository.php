@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Artist;
 use Doctrine\ORM\EntityRepository;
 
 class ArtistRepository extends EntityRepository

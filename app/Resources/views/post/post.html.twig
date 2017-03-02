@@ -12,7 +12,7 @@
 <div class="col-sm-4 col-lg-4 col-md-4">
     <div class="thumbnail">
         {% for i in images %}
-            <img src="{{ asset('uploads/brochures/' ~ i.name) | imagine_filter('my_thumb') }}" style="margin-bottom: 4px" />
+            <img src="{{ asset('uploads/brochures/' ~ i.file) | imagine_filter('my_thumb') }}" style="margin-bottom: 4px" />
         {%  endfor %}
 
     </div>
@@ -22,8 +22,8 @@
         <span class="glyphicon glyphicon-bookmark" style="top: -4px; left: 4px"></span>
         <div class="caption">
 
-            <h4 class="pull-right">$24.99</h4>
-            <h4>{{  post.title }}
+            <h4 class="pull-right">{{ post.price }}</h4>
+            <h4>{{ post.title }}
             </h4>
             <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
 
@@ -38,7 +38,7 @@
             <button type="submit" style="margin-top: 5px" class="btn btn-default" formnovalidate>Save</button>
             {{ form_end(contact) }}
         </div>
-        <div class="caption" id="message_form_div">
+        <div class="caption" id="message_form_div">{{ ipRating }}
             {% if ipRating is empty %}
                 {{ form_start(message) }}
                 {{ form_widget(message) }}
@@ -48,35 +48,38 @@
                     <div id="rateYo" class="pull-left"></div>
                 </div>
             {% else %}
-
+                Title: {{ review.title }}<br />
+                Message: {{ review.message }}
             {% endif %}
-        <
+        </div>
     </div>
     <div class="well">
         <div class="caption">
-            <div class="text-right">
-                <a class="btn btn-success" id="leave_review">Leave a Review</a>
-            </div>
-            <hr />
-            {% for m in messages %}
+            {% if ipRating is empty %}
+
+                <div class="text-right">
+                    <a class="btn btn-success" id="leave_review">Leave a Review</a>
+                </div>
+
+            {% endif %}
+
+            {% for m in messages if m.userId != 1 %}
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="ratings">
-                            <div id="rateYo" class="pull-left"></div>
-                        </div>
-                        {% set rate = m.rating|round %}
-                        {% set empty = 5-rate %}
-                        {% for i in 0..rate %}
-                            <span class="glyphicon glyphicon-star"></span>
-                        {% endfor %}
-                        {% for e in 0..empty if rate != 5 %}
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                        {% endfor %}
-                        {{m.title}}
-                        <span class="pull-right"> {{ m.tstamp|date('m/d/Y') }}</span>
-                        <p>{{ m.message }}
-                            <span class="glyphicon glyphicon-pencil pull-right" id="message_comment "></span></p>
-
+                        {% if m.userId != user_id %}
+                            {% set rate = m.rating|round %}
+                            {% set empty = 5-rate %}
+                            {% for i in 0..rate %}
+                                <span class="glyphicon glyphicon-star"></span>
+                            {% endfor %}
+                            {% for e in 0..empty if rate != 5 %}
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                            {% endfor %}
+                            {{m.title}}
+                            <span class="pull-right"> {{ m.tstamp|date('m/d/Y') }}</span>
+                            <p>{{ m.message }}
+                                <span class="glyphicon glyphicon-pencil pull-right" id="message_comment "></span></p>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

@@ -39,11 +39,14 @@ class PostFormType extends AbstractType
             ->add('artist', EntityType::class, [
                 'placeholder'=>'Choose Artist',
                 'class'=>Artist::class,
+                'data'=>3,
                 'choice_label'=>'artist',
                 'query_builder'=> function (EntityRepository $er) {
                     return $er->createQueryBuilder('artist')
                         ->orderBy('artist.artist', 'ASC');
                 },
+
+                'empty_data'  => null,
                 'attr' => array(
                     'class' => 'form-control'
                 )

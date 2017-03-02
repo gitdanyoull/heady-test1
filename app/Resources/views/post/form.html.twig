@@ -33,30 +33,35 @@
             </div>
         </div>
 
-    {% if images is not empty %}
+        {% if post.id is not empty %}
 
         <div class="thumbnail">
 
             <div class="caption">
 
-                <button class="btn btn-default pull-left" style="margin: 5px" onclick="javascript: window.location='{{ path('add_image', {'postId': post.id, 'imageId': 1}) }}';">Add Image</button>
+                    <button class="btn btn-default pull-left" style="margin: 5px" onclick="javascript: window.location='{{ path('add_image', {'postId': post.id, 'imageId': 1}) }}';">Add Image</button>
 
-                <table class="table table-striped">
-                    {% for i in images %}
-                        <tr>
-                            <td>
-                                {{i.name}}
-                            </td>
-                            <td>
-                                <input class="default_image" data-value="{{ i.imageId }}" type="radio" name="default_image" {% if i .ShowDefault == '1' %} checked {% endif  %}value="yes" />
-                            </td>
-                            <td>
-                                <a href="{{ path('edit_image', {'postId': i.postId,'imageId': i.imageId}) }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                                <a href="{{ path('delete_image', {'postId': i.postId,'imageId': i.imageId}) }}" class="pull-right"><span class="glyphicon glyphicon-trash"></span></a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </table>
+
+                {% if images is not empty %}
+
+                    <table class="table table-striped">
+                        {% for i in images %}
+                            <tr>
+                                <td>
+                                    {{i.name}}
+                                </td>
+                                <td>
+                                    <input class="default_image" data-value="{{ i.imageId }}" type="radio" name="default_image" {% if i .ShowDefault == '1' %} checked {% endif  %}value="yes" />
+                                </td>
+                                <td>
+                                    <a href="{{ path('edit_image', {'postId': i.postId,'imageId': i.imageId}) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                                    <a href="{{ path('delete_image', {'postId': i.postId,'imageId': i.imageId}) }}" class="pull-right"><span class="glyphicon glyphicon-trash"></span></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+
+                {% endif %}
 
                 {{ form_start(image) }}
                     {{ form_row(image.imageId, { 'attr': {'class': 'default_id'} }) }}
@@ -64,9 +69,9 @@
                 {{ form_end(image) }}
 
             </div>
-
     </div>
-{% endif %}
+
+        {% endif %}
 
 {% endblock %}
 

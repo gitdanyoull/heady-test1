@@ -27,14 +27,25 @@ class PostRating
         return $this->ip;
     }
 
-    public function getIpRating($doctrine)
+    public function getIpMessage($doctrine)
     {
-        $rating_repo = $doctrine->getRepository('AppBundle:Rating');
+        $rating_repo = $doctrine->getRepository('AppBundle:Message');
         $rating = $rating_repo->findOneBy(array('ip'=>$this->ip,'postId'=>$this->postId));
 
         if( $rating === null )
             return null;
         else
-            return $rating->getRating();
+            return $rating;
+    }
+
+    public function getIpRating($doctrine)
+    {
+       return $this->getRating($doctrine);
+    }
+
+    public function getRating($doctrine)
+    {
+        $message = $this->getIpMessage($doctrine);
+        return 3;
     }
 }

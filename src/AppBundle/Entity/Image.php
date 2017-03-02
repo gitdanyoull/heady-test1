@@ -19,12 +19,8 @@ class Image
      */
     private $imageId;
 
-
     /**
      * @ORM\Column(type="string")
-     *
-     * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
-     * @Assert\File(mimeTypes={ "image/png" })
      */
     private $name;
 
@@ -35,6 +31,9 @@ class Image
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Please select an image.")
+     * @Assert\File(mimeTypes={ "image/png" })
+
      */
     private $file;
 
