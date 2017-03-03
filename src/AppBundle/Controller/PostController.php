@@ -41,9 +41,9 @@ class PostController extends Controller
     {
 	    $post = new Post(); 
         $user = $this->get('security.context')->getToken()->getUser();
-        $userId = $user->getId();
+        $post->setUser($user);
 
-        $form = $this->createForm( new PostFormType( $userId ), $post );
+        $form = $this->createForm( new PostFormType(), $post );
         $form->handleRequest($request);	
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -68,20 +68,12 @@ class PostController extends Controller
      */
     public function editAction(Request $request,Post $post,$id)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
-        $userId = $user->getId();
         $em = $this->getDoctrine()->getManager();
-
-
-        $form = $this->createForm(new PostFormType( $userId, $id ),$post);
-
+        $form = $this->createForm(new PostFormType(),$post);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $post = $form->getData();
-
-            $em->persist($post);
+            //  Dont need this post is already loaded by doctrine
+            //$em->persist($post);
 
             $em->flush();
             $this->addFlash('success', 'success');
