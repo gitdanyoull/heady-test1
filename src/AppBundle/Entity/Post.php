@@ -34,18 +34,17 @@ class Post
     private $description;
 
     /**
-     * @ORM\Column(type="integer", length=16)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $userId;
-
+    private $user;
     /**
      * @ORM\Column(type="decimal", precision=16, scale=2)
      */
     private $price;
 
-    /**
-     * @ORM\Column(type="text", length=8)
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SArtist")
+    /** 
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Artist")
      * @ORM\JoinColumn(name="artist", referencedColumnName="artist_id")
      */
 
@@ -118,17 +117,17 @@ class Post
     /**
      * @return mixed
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 
     /**
      * @param mixed $userId
      */
-    public function setUserId($userId)
+    public function setUser($user)
     {
-        $this->userId = $userId;
+        $this->user = $user;
     }
 
     /**

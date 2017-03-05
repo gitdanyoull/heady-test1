@@ -23,13 +23,18 @@
                 {{ form_row(form.artist,{'label':'Artist'}) }}
                 {{ form_row(form.price,{'label':'Price'}) }}
                 {{ form_row(form.purchaseDate,{'label':'Purchase Date'}) }}
-                {{ form_row(form.description,{'label':'Description'}) }}
-                {{ form_row(form.userId) }}
-                {{ form_row(form.id) }}
+                {{ form_row(form.description,{'label':'Description'}) }}  
                 <button type="submit" style="margin: 5px" class="btn btn-default pull-right" formnovalidate>Save</button>
             {{ form_end(form) }}
-
-
+                <select id="test_select">
+                    <option value="">Choose Artist</option>
+                    <option value="add">Add Artist</option>
+                    <option value="1">Artist 1</option>
+                    <option value="2">Artist 2</option>
+                </select>
+                <span id="test_span"  style="display:none">
+                    <input type="text" id="test_input" /> [<a href="javascript: void(0);" id="test_hide">-</a>]
+                </span>
             </div>
         </div>
 
@@ -78,7 +83,15 @@
 {% block script %}
     <script>
         $(document).ready( function() {
-
+            $('#test_select').change( function(e){
+               
+                if( this.value=='add' )
+                {    
+                    alert('Show Input');
+                    $('#test_span').toggle();
+                    $('#test_select').toggle();
+                }
+            });
             $('input[type=radio]').click( function() {
                 $('#set_image_form_imageId').val( $(this).attr("data-value")  );
                 var form = $('form[name="set_image_form"]').serializeArray();

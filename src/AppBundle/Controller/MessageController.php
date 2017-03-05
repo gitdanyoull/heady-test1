@@ -32,8 +32,8 @@ class MessageController extends Controller
         $sale->setMessage($data[1]['value']);
         $sale->setRating($data[2]['value']);
         $sale->setUserId($userId);
-        $sale->setUserId($userId);
         $sale->setPostId($postId);
+        $sale->setIp( $request->getClientIp() );
 
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($sale);

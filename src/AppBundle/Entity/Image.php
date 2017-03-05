@@ -32,7 +32,12 @@ class Image
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Please select an image.")
-     * @Assert\File(mimeTypes={ "image/png" })
+     * @Assert\File(mimeTypes = {
+ *          "image/png",
+ *          "image/jpeg",
+ *          "image/jpg",
+ *          "image/gif", 
+ *      })
 
      */
     private $file;

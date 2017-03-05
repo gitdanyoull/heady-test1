@@ -27,37 +27,26 @@ class PostFormType extends AbstractType
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-
+    { 
+        
         $builder
-            ->add('title', TextType::class, array( 'attr' => array(
-                'class' => 'form-control'
-            )))
-            ->add('price', TextType::class, array( 'attr' => array(
-                'class' => 'form-control'
-            )))
+            ->add('title', TextType::class)
+            ->add('price', TextType::class)
             ->add('artist', EntityType::class, [
-                'placeholder'=>'Choose Artist',
+                'empty_value'=>'Choose Artist',
                 'class'=>Artist::class,
-                'data'=>3,
                 'choice_label'=>'artist',
                 'query_builder'=> function (EntityRepository $er) {
                     return $er->createQueryBuilder('artist')
                         ->orderBy('artist.artist', 'ASC');
                 },
-
-                'empty_data'  => null,
-                'attr' => array(
-                    'class' => 'form-control'
-                )
             ])
-
-            ->add('userId', HiddenType::class )
-            ->add('description', TextareaType::class, array( 'attr' => array(
-                'class' => 'form-control'
-            )))
+            // No need to put this information in the frontend
+            //->add('user', HiddenType::class )
+            ->add('description', TextareaType::class)
             ->add('purchaseDate','date')
-            ->add('id',HiddenType::class)
+            // No need for this either null or will be directly in the post object
+            //->add('id',HiddenType::class)
         ;
     }
 

@@ -7,88 +7,99 @@
 
 {% block body %}
 
-
-
-<div class="col-sm-4 col-lg-4 col-md-4">
-    <div class="thumbnail">
-        {% for i in images %}
-            <img src="{{ asset('uploads/brochures/' ~ i.file) | imagine_filter('my_thumb') }}" style="margin-bottom: 4px" />
-        {%  endfor %}
-
-    </div>
-</div>
-<div class="col-sm-8 col-lg-8 col-md-8">
-    <div class="thumbnail">
-        <span class="glyphicon glyphicon-bookmark" style="top: -4px; left: 4px"></span>
-        <div class="caption">
-
-            <h4 class="pull-right">{{ post.price }}</h4>
-            <h4>{{ post.title }}
-            </h4>
-            <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
-
-            <a class="btn btn-success pull-right" id="submit_offer">Submit an Offer</a>
+    <!--IMAGE AREA-->
+    <div class="col-sm-4 col-lg-4 col-md-4">
+        <div class="thumbnail">
+            {% for i in images %}
+                <img src="{{ asset('uploads/brochures/' ~ i.file) | imagine_filter('my_thumb') }}" style="margin-bottom: 4px" />
+            {%  endfor %}
 
         </div>
     </div>
-    <div class="thumbnail">
-        <div class="caption" id="contact_form_div" style="display: none ">
-            {{ form_start(contact) }}
-            {{ form_widget(contact) }}
-            <button type="submit" style="margin-top: 5px" class="btn btn-default" formnovalidate>Save</button>
-            {{ form_end(contact) }}
+
+    <div class="col-sm-8 col-lg-8 col-md-8">
+
+        <div class="thumbnail">
+            <span class="glyphicon glyphicon-bookmark" style="top: -4px; left: 4px"></span>
+            <div class="caption">
+
+                <h4 class="pull-right">{{ post.price }}</h4>
+                <h4>{{ post.title }}
+                </h4>
+                <p>{{ post.description }}</p>
+
+                <!--JAVASCRIPT TRIGGER TO SHOW OFFER FORM-->
+                <btn type="button" class="btn btn-danger pull-right hide" id="hide_offer" onclick="javascript: void(0);">Submit an Offer</btn>
+
+                <btn type="button" class="btn btn-success pull-right" id="submit_offer" onclick="javascript: void(0);">Submit an Offer</btn>
+
+            </div>
         </div>
-        <div class="caption" id="message_form_div">{{ ipRating }}
-            {% if ipRating is empty %}
-                {{ form_start(message) }}
-                {{ form_widget(message) }}
+
+        <div class="thumbnail">
+            <div class="caption" id="contact_form_div" style="display: none ">
+                {{ form_start(contact) }}
+                {{ form_widget(contact) }}
                 <button type="submit" style="margin-top: 5px" class="btn btn-default" formnovalidate>Save</button>
-                {{ form_end(message) }}
-                <div class="ratings">
-                    <div id="rateYo" class="pull-left"></div>
-                </div>
-            {% else %}
-                Title: {{ review.title }}<br />
-                Message: {{ review.message }}
-            {% endif %}
-        </div>
-    </div>
-    <div class="well">
-        <div class="caption">
-            {% if ipRating is empty %}
+                {{ form_end(contact) }}
 
-                <div class="text-right">
-                    <a class="btn btn-success" id="leave_review">Leave a Review</a>
-                </div>
+                <btn type="button" class="btn btn-success pull-right" id="switch_offer">Switch</btn>
 
-            {% endif %}
-
-            {% for m in messages if m.userId != 1 %}
-                <div class="row">
-                    <div class="col-md-12">
-                        {% if m.userId != user_id %}
-                            {% set rate = m.rating|round %}
-                            {% set empty = 5-rate %}
-                            {% for i in 0..rate %}
-                                <span class="glyphicon glyphicon-star"></span>
-                            {% endfor %}
-                            {% for e in 0..empty if rate != 5 %}
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                            {% endfor %}
-                            {{m.title}}
-                            <span class="pull-right"> {{ m.tstamp|date('m/d/Y') }}</span>
-                            <p>{{ m.message }}
-                                <span class="glyphicon glyphicon-pencil pull-right" id="message_comment "></span></p>
-                        {% endif %}
+            </div>
+            <div class="caption" id="message_form_div">
+                {% if review is empty %}
+                    {{ form_start(message) }}
+                    {{ form_widget(message) }}
+                    <button type="submit" style="margin-top: 5px" class="btn btn-default" formnovalidate>Save</button>
+                    {{ form_end(message) }}
+                    <div class="ratings">
+                        <div id="rateYo" class="pull-left"></div>
                     </div>
-                </div>
-            {% endfor %}
+                {% else %}
+                    {{ review.title }}<br />
+                    {{ review.message }}
+                    <div class="ratings">
+                        <div id="rateYo" class="pull-left"></div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="well">
+            <div class="caption">
+                {% if messages is empty %}
+
+                    <div class="text-right">
+                        <a class="btn btn-success" id="leave_review">Leave a Review</a>
+                    </div>
+
+                {% endif %}
+
+                {% for m in messages if m.userId != 1 %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% if m.user != user_id %}
+                                {% set rate = m.rating|round %}
+                                {% set empty = 5-rate %}
+                                {% for i in 0..rate %}
+                                    <span class="glyphicon glyphicon-star"></span>
+                                {% endfor %}
+                                {% for e in 0..empty if rate != 5 %}
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                {% endfor %}
+                                {{m.title}}
+                                <span class="pull-right"> {{ m.tstamp|date('m/d/Y') }}</span>
+                                <p>{{ m.message }}
+                                    <span class="glyphicon glyphicon-pencil pull-right" id="message_comment "></span></p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
 
         </div>
 
     </div>
-
-</div>
 
 
 {% endblock %}
@@ -105,34 +116,18 @@
             {
                 $("#rateYo").rateYo({
 
-                    rating: {{ ipRating|default(4) }},
+                    rating: {{ stars|default(4) }},
                     spacing: "5px",
-                    readOnly: {% if ipRating is empty %} false {% else %} true {% endif %},
+                    readOnly: {% if messages is empty %} false {% else %} true {% endif %},
 
                 }).on("rateyo.set", function (e, data) {
 
                     $('#message_form_rating').val(data.rating);
-
-                    return false;
+ 
 
                     $("#rateYo").rateYo("option", "readOnly", "true");
-                    $.ajax({
-                        type: "POST",
-                        url: "{{ path('rating_save', {'postId': post.id}) }}",
-                        data: {
-                            'form': data.rating
-                        },
-                        success: function (response) {
-                            console.log(response);
-                            $.growl.notice({
-                                title: "Growl",
-                                message: "Rating<b> " + data.rating + " </b>assigned successfully"
-                            });
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
-                        }
-                    });
+                    return false;   
+
                 });
 
             }
@@ -142,15 +137,33 @@
                     $('#contact_form_div').fadeIn("slow");
                 });
             });
-            $('#submit_offer').click(function(){
-                window.location="{{ path('offer_form', {'id': post.id}) }}";
+ 
+            $('#switch_offer').click(function(){
+
+                $('#hide_offer').toggleClass('hide');
+                $('#submit_offer').toggleClass('hide');
+                $('#contact_form_div').fadeOut( "slow", function() {
+                    $('#message_form_div').fadeIn("slow");
+                });
+
             });
+
+            $('#submit_offer').click(function(){
+
+                $('#hide_offer').toggleClass('hide');
+                $('#submit_offer').toggleClass('hide');
+                $('#message_form_div').fadeOut( "slow", function() {
+                    $('#contact_form_div').fadeIn("slow");
+                });
+                //window.location="{{ path('offer_form', {'id': post.id}) }}";
+            });
+
             //handle message submission
             $('form[name=message_form]').submit(function (e) {
 
                 e.preventDefault();
 
-                if( $('#message_form_rating').children().length === 0 )
+                if( $('#message_form_rating').val() === '' )
                 {
                     $.growl.notice({
                         title: "Growl",
@@ -159,7 +172,8 @@
                     return false;
                 }
 
-                var form = $('form[name="message_form"]').serializeArray();
+                var form = $('form[name="message_form"]').serializeArray(); 
+                alert( form );
 
                 $.ajax({
                     type: "POST",

@@ -59,6 +59,9 @@
                         <a href="/post">Posts</a>
                     </li>
                     <li>
+                        <a href="{{ path('admin') }}">Admin</a>
+                    </li>`
+                    <li>
                         <a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
                     </li>
                 {% else %}

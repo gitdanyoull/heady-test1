@@ -26,8 +26,11 @@ class PostController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userId = $user->getId();
+
         $repository = $this->getDoctrine()->getRepository('AppBundle:Post');
-        $post= $repository->findAll();
+        $post= $repository->findBy(array('user'=>$userId));
 
         // replace this example code with whatever you need
         return $this->render('post/index.html.twig', array(
@@ -42,6 +45,8 @@ class PostController extends Controller
 	    $post = new Post(); 
         $user = $this->get('security.context')->getToken()->getUser();
         $userId = $user->getId();
+
+        $post->setUser($userId);
 
         $form = $this->createForm( new PostFormType( $userId ), $post );
         $form->handleRequest($request);	
@@ -59,7 +64,7 @@ class PostController extends Controller
 
         // replace this example code with whatever you need
         return $this->render('post/form.html.twig', array(
-            'form' => $form->createView(),'post'=>$post,'postId'=>1,
+            'form' => $form->createView(),'post'=>$post,
             'images' => array()
         ));
     }
@@ -74,7 +79,7 @@ class PostController extends Controller
 
 
         $form = $this->createForm(new PostFormType( $userId, $id ),$post);
-
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -119,29 +124,30 @@ class PostController extends Controller
         $images= $img_repository->findBy( array('postId' => $post->getId()),array('showDefault' => 'DESC'));
 
         $msg_repository = $this->getDoctrine()->getRepository('AppBundle:Message');
-        $messages = $msg_repository->findAll();
+        $messages = $msg_repository->findBy(array('postId'=>$post->getId()));
 
-        $message = $msg_repository->findOneBy(array('postId' => $post->getId(),'userId'=>$userId));
+        $review = $msg_repository->findOneBy(array('postId' => $post->getId(),'userId'=>$userId));
 
         $message_form = $this->createForm( new MessageFormType(), new Message() );
 
         $contact = $this->createForm( new ContactFormType(), new Contact() );
 
-        $rating = new PostRating($request->getClientIp(),$id);
-        $ip = $rating->getIp();
-        $ipRating = $rating->getIpRating($this->getDoctrine());
+        $rating = new PostRating($request->getClientIp(),$id,$userId);
 
+        $ip = $rating->getIp(); 
+        $stars = $rating->getRating($this->getDoctrine());
+        
         // replace this example code with whatever you need
         return $this->render('post/post.html.twig', array(
             'post'=>$post,
             'images'=>$images,
             'contact' => $contact->createView(),
             'message' => $message_form->createView(),
-            'review' => $message,
+            'review' => $review,
             'messages' => $messages,
             'ip' => $ip,
-            'user_id' => $userId,
-            'ipRating' => $ipRating,
+            'stars' => $stars,
+            'user_id' => $userId, 
         ));
 
     }

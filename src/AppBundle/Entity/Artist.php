@@ -30,18 +30,16 @@ class Artist
     private $bio;
 
     /**
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="artist")
+     */
+    private $products;
+    /**
      * @return mixed
      */
     public function getArtistId()
     {
         return $this->artistId;
     }
-
-    /**
-     * @ORM\OneToMany(targetEntity="Post", mappedBy="artist")
-     */
-    private $products;
-
 
     /**
      * @param mixed $artistId
