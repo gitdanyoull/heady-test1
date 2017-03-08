@@ -44,7 +44,7 @@ class Post
     private $price;
 
     /** 
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Artist")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Artist", inversedBy="posts", cascade={"persist"})
      * @ORM\JoinColumn(name="artist", referencedColumnName="artist_id")
      */
 
