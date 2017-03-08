@@ -35,8 +35,8 @@ class PostFormType extends AbstractType
             ->add('price', TextType::class)
             ->add('artist', EntityType::class, [
                 // This wil be change depending on the value
-                'mapped' => false,
-                'required' => false,
+                'mapped' => true,
+                'required' => true,
                 'property_path' => 'artist',
                 'empty_value'=>'Choose Artist',
                 'class'=>Artist::class,
@@ -62,12 +62,10 @@ class PostFormType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
             $user_data = $event->getData();
             $form = $event->getForm();
-            $artist_field = empty($user_data['artist'])? 'artist_form' : 'artist';
-            $config = $form->get($artist_field)->getConfig();
-            $options = $config->getOptions();
-            $options['mapped'] = true;
-            $options['required'] = true;
-            $form->add($artist_field, $config->getType()->getName(), $options);
+            if(empty($user_data['artist'])) {
+                $this->_switchArtistField('artist', false, $form);
+                $this->_switchArtistField('artist_form', true, $form);
+            }
         });
     }
 
@@ -76,5 +74,13 @@ class PostFormType extends AbstractType
         $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Post'
         ]);
+    }
+
+    private function _switchArtistField($field, $active, $form) {
+        $config = $form->get($field)->getConfig();
+        $options = $config->getOptions();
+        $options['mapped'] = $active;
+        $options['required'] = $active;
+        $form->add($field, $config->getType()->getName(), $options);
     }
 }
