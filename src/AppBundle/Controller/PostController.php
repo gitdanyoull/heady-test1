@@ -44,19 +44,17 @@ class PostController extends Controller
     {
 	    $post = new Post(); 
         $user = $this->get('security.context')->getToken()->getUser();
-        $userId = $user->getId();
+        $post->setUser($user);
 
-        $post->setUser($userId);
-
-        $form = $this->createForm( new PostFormType( $userId ), $post );
+        $form = $this->createForm( new PostFormType(), $post );
         $form->handleRequest($request);	
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            /** @var Post $post */
             $post = $form->getData();
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
-
             $em->flush();
             $this->addFlash('success', 'success');
             return $this->redirectToRoute('post');
