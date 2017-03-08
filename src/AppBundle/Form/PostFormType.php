@@ -33,6 +33,9 @@ class PostFormType extends AbstractType
             ->add('title', TextType::class)
             ->add('price', TextType::class)
             ->add('artist', EntityType::class, [
+                // This wil be change depending on the value
+                'mapped' => false,
+                'property_path' => 'artist',
                 'empty_value'=>'Choose Artist',
                 'class'=>Artist::class,
                 'choice_label'=>'artist',
@@ -41,12 +44,14 @@ class PostFormType extends AbstractType
                         ->orderBy('artist.artist', 'ASC');
                 },
             ])
-            // No need to put this information in the frontend
-            //->add('user', HiddenType::class )
+            // For now just display the embed form, will be hidden later
+            ->add('artist_form', ArtistType::class, array(
+                // This wil be change depending on the value
+                'mapped' => false,
+                'property_path' => 'artist',
+            ))
             ->add('description', TextareaType::class)
             ->add('purchaseDate','date')
-            // No need for this either null or will be directly in the post object
-            //->add('id',HiddenType::class)
         ;
     }
 
