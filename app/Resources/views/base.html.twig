@@ -88,9 +88,7 @@
         <div class="col-md-3">
             <div class="list-group">
                 {% block menu %}
-                    <a href="#" class="list-group-item">Category 1</a>
-                    <a href="#" class="list-group-item">Category 2</a>
-                    <a href="#" class="list-group-item">Category 3</a>
+                    {% include 'menu.html.twig' %}
                 {% endblock %}
             </div>
         </div>

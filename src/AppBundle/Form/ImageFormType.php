@@ -36,7 +36,8 @@ class ImageFormType extends AbstractType
             ->add('file','file', array( 'attr' => array(
             )))
             ->add('note','textarea',array( 'attr' => array(
-                'class' => 'form-control'
+                'class' => 'form-control',
+                'required' => 'false'
             )))
         ;
     }

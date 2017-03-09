@@ -2,11 +2,12 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Category;
 use AppBundle\Entity\Message;
 use AppBundle\Entity\Post;
 use AppBundle\Entity\Image;
 use AppBundle\Entity\Contact;
-use AppBundle\Entity\Artist;
+use AppBundle\Entity\Artist; 
 use AppBundle\Form\PostFormType;
 use AppBundle\Form\ArtistFormType;
 use AppBundle\Form\ContactFormType;
@@ -66,6 +67,21 @@ class AdminController extends Controller
         ));
     }
 
+    /**
+     * @Route("/admin/artists", name="admin_artists")
+     */
+    public function artistsAction(Request $request)
+    { 
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Post');
+        $posts = $repository->findAll();
+
+        // replace this example code with whatever you need
+        return $this->render('admin/posts.html.twig', array(
+            'posts'=>$posts
+        ));
+    }
+
+
         /**
      * @Route("/admin/users", name="admin_users")
      */
@@ -86,13 +102,27 @@ class AdminController extends Controller
      */
     public function userAction(Request $request,$id)
     { 
-       
+
         $repository = $this->getDoctrine()->getRepository('AppBundle:User');
         $user = $repository->findById($id);
         dump($user); die;                                   
         // replace this example code with whatever you need
         return $this->render('admin/users.html.twig', array(
             'user'=>$user
+        ));
+    }
+
+    /**
+     * @Route("/admin/categories", name="admin_categories")
+     */
+    public function categoriesAction(Request $request)
+    { 
+                    
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Category');
+        $categories = $repository->findAll();
+        dump($categories); die;
+        return $this->render('admin/categories.html.twig', array(
+            'categories'=>$categories
         ));
     }
     

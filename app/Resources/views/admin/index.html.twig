@@ -5,8 +5,7 @@
 {% endblock %}
 
 {% block menu %}
-    <a href="{{ path('admin_users') }}" class="list-group-item">Users</a>
-    <a href="{{ path('admin_posts') }}" class="list-group-item">Posts</a> 
+    {% include 'admin/menu.html.twig' %}
 {% endblock %}
 
 {% block body %}

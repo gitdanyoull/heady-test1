@@ -24,6 +24,11 @@ class Post
     private $title;
 
     /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $category;
+
+    /**
      * @ORM\Column(type="date")
      */
     private $purchaseDate;

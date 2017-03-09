@@ -33,21 +33,25 @@
 
     </div>
 
-    <div class="row">
+   
+        {% set row=0 %}
         {% for p in post %}
-
+            {% if row == 0 %} 
+                <div class="row">
+            {% endif %}
         <div class="col-sm-4 col-lg-4 col-md-4">
+            
             <div class="thumbnail">
                 {% for i in p.images %}
                     {%  if i.ShowDefault == 1 %}
                         <img src="{{ asset('uploads/brochures/' ~ i.file) | imagine_filter('my_thumb') }}" />
                     {%  endif %}
                 {%  endfor %}
-                <div class="caption">
+                <div class="caption">   
                     <h4 class="pull-right">{{ p.post.price }}</h4>
-                    <h4><a href="{{  path('post_view', {'id': p.post.id}) }}">{{  p.post.title }}</a>
+                    <h4><a href="{{  path('post_view', {'id': p.post.id}) }}">{{ p.post.title }}</a>
                     </h4>
-                    <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
+                    {{ p.post.description }}
                 </div>
 
                 <div class="ratings">
@@ -62,7 +66,12 @@
                 </div>
             </div>
         </div>
-        {% endfor  %}
+        {% set row = row + 1 %}
+        {% if row == 3 %}
+           {% set row = 0 %} 
+           </div>
+        {% endif %}
+        {% endfor %}
     </div>
 
 {% endblock %}

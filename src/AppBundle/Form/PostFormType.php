@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -31,7 +32,10 @@ class PostFormType extends AbstractType
         
         $builder
             ->add('title', TextType::class)
-            ->add('price', TextType::class)
+            ->add('price', MoneyType::class, array(
+                    'currency' => 'USD',
+                    'grouping' => true
+            ))
             ->add('artist', EntityType::class, [
                 'empty_value'=>'Choose Artist',
                 'class'=>Artist::class,

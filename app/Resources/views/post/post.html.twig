@@ -23,11 +23,11 @@
             <span class="glyphicon glyphicon-bookmark" style="top: -4px; left: 4px"></span>
             <div class="caption">
 
-                <h4 class="pull-right">{{ post.price }}</h4>
-                <h4>{{ post.title }}
-                </h4>
+                <h4>{{ post.title }}</h4>
+                <h4>${{ post.price|number_format(2, '.', ',') }}</h4>
+                
                 <p>{{ post.description }}</p>
-
+                
                 <!--JAVASCRIPT TRIGGER TO SHOW OFFER FORM-->
                 <btn type="button" class="btn btn-danger pull-right hide" id="hide_offer" onclick="javascript: void(0);">Submit an Offer</btn>
 
@@ -72,12 +72,12 @@
                         <a class="btn btn-success" id="leave_review">Leave a Review</a>
                     </div>
 
-                {% endif %}
+                {% endif %} 
 
                 {% for m in messages if m.userId != 1 %}
                     <div class="row">
                         <div class="col-md-12">
-                            {% if m.user != user_id %}
+                            {% if m.userId != user_id %}
                                 {% set rate = m.rating|round %}
                                 {% set empty = 5-rate %}
                                 {% for i in 0..rate %}
