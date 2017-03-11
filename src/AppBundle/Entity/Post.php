@@ -38,6 +38,7 @@ class Post
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
+
     /**
      * @ORM\Column(type="decimal", precision=16, scale=2)
      */
@@ -47,7 +48,6 @@ class Post
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Artist", inversedBy="posts", cascade={"persist"})
      * @ORM\JoinColumn(name="artist", referencedColumnName="artist_id")
      */
-
     private $artist;
 
     /**
@@ -161,7 +161,4 @@ class Post
     {
         $this->artist = $artist;
     }
-
-
-
 }
