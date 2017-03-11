@@ -38,7 +38,7 @@ class PostFormType extends AbstractType
                 'mapped' => true,
                 'required' => true,
                 'property_path' => 'artist',
-                'empty_value'=>'Choose Artist',
+                'empty_value'=>'New Artist',
                 'class'=>Artist::class,
                 'choice_label'=>'artist',
                 'query_builder'=> function (EntityRepository $er) {
@@ -53,6 +53,7 @@ class PostFormType extends AbstractType
                 // This wil be change depending on the value
                 'mapped' => false,
                 'required' => false,
+                'data' => null,
                 'property_path' => 'artist',
             ))
             ->add('description', TextareaType::class)
