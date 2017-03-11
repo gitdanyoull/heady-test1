@@ -75,15 +75,20 @@
 {% block script %}
     <script>
         $(document).ready( function() {
-            $('#test_select').change( function(e){
-               
-                if( this.value=='add' )
-                {    
-                    alert('Show Input');
-                    $('#test_span').toggle();
-                    $('#test_select').toggle();
+            var toggleArtistForm = function () {
+                var $form_group = $('#post_form_artist_form').parent();
+                var selectValue = $('#post_form_artist').val();
+                if(!selectValue) {
+                  $form_group.show();
                 }
-            });
+                else {
+                  $form_group.hide();
+                }
+            };
+            $('#post_form_artist').on('change', toggleArtistForm);
+            toggleArtistForm();
+
+
             $('input[type=radio]').click( function() {
                 $('#set_image_form_imageId').val( $(this).attr("data-value")  );
                 var form = $('form[name="set_image_form"]').serializeArray();
