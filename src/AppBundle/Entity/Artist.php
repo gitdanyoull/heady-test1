@@ -32,7 +32,8 @@ class Artist
     /**
      * @ORM\OneToMany(targetEntity="Post", mappedBy="artist")
      */
-    private $products;
+    private $posts;
+
     /**
      * @return mixed
      */
@@ -79,6 +80,22 @@ class Artist
     public function setBio($bio)
     {
         $this->bio = $bio;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    /**
+     * @param mixed $posts
+     */
+    public function setPosts($posts)
+    {
+        $this->posts = $posts;
     }
 
     public function __toString()
