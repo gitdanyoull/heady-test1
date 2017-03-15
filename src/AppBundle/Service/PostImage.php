@@ -13,10 +13,10 @@ class PostImage
         $this->doctrine = $doctrine;
     }
 
-    public function getIsFirst($postId)
+    public function getIsFirst($post)
     {
         $repository = $this->doctrine->getRepository('AppBundle:Image');
-        $images = $repository->findBy( array('postId' => $postId) );
+        $images = $repository->findBy( array('post' => $post) );
         return count($images);
     }
 }

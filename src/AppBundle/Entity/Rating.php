@@ -29,14 +29,16 @@ class Rating
     private $tstamp;
 
     /**
-     * @ORM\Column(type="integer", length=8)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $userId;
+    private $user;
 
     /**
-     * @ORM\Column(type="integer", length=8)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
-    private $postId;
+    private $post;
 
     /**
      * @ORM\Column(type="string", length=32)

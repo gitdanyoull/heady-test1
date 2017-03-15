@@ -103,10 +103,28 @@ class PostController extends Controller
     public function viewAction(Request $request, $id)
     {
         $user = $this->get('security.context')->getToken()->getUser();
+        $user_id = '';
         if( $user!='anon.' )
-            $userId = $user->getId();
+            $user_id = $user->getId();
         else
-            $userId = '';
+            $user_id = ''; 
+            
+        $message = new Message();
+        $form = $this->createForm( new MessageFormType(), $message );
+        $form->handleRequest($request); 
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            /** @var Post $post */
+            $message = $form->getData(); 
+            $message->setUser($user);
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($message);
+            $em->flush();
+            $this->addFlash('success', 'success');
+            return $this->redirectToRoute('post');
+        }
 
         $post_repository = $this->getDoctrine()->getRepository('AppBundle:Post');
         $post= $post_repository->findOneBy(array('id'=>$id));
@@ -115,15 +133,15 @@ class PostController extends Controller
         $images= $img_repository->findBy( array('postId' => $post->getId()),array('showDefault' => 'DESC'));
 
         $msg_repository = $this->getDoctrine()->getRepository('AppBundle:Message');
-        $messages = $msg_repository->findBy(array('postId'=>$post->getId()));
+        $messages = $msg_repository->findBy(array('post'=>$post->getId()));
 
-        $review = $msg_repository->findOneBy(array('postId' => $post->getId(),'userId'=>$userId));
+        $review = $msg_repository->findOneBy(array('post' => $post->getId(),'user'=>$user));
 
         $message_form = $this->createForm( new MessageFormType(), new Message() );
 
         $contact = $this->createForm( new ContactFormType(), new Contact() );
 
-        $rating = new PostRating($request->getClientIp(),$id,$userId);
+        $rating = new PostRating($request->getClientIp(),$id,$user);
 
         $ip = $rating->getIp(); 
         $stars = $rating->getRating($this->getDoctrine());
@@ -138,7 +156,7 @@ class PostController extends Controller
             'messages' => $messages,
             'ip' => $ip,
             'stars' => $stars,
-            'user_id' => $userId, 
+            'user_id' => $user_id
         ));
 
     }

@@ -40,14 +40,16 @@ class Message
     private $tstamp;
 
     /**
-     * @ORM\Column(type="integer", length=8)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $userId;
+    private $user;
 
     /**
-     * @ORM\Column(type="integer", length=8)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
-    private $postId;
+    private $post;
 
     /**
      * @ORM\Column(type="text", length=32)
@@ -121,33 +123,33 @@ class Message
     /**
      * @return mixed
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 
     /**
-     * @param mixed $userId
+     * @param mixed $user
      */
-    public function setUserId($userId)
+    public function setUser($user)
     {
-        $this->userId = $userId;
+        $this->user = $user;
     }
 
     /**
      * @return mixed
      */
-    public function getPostId()
+    public function getPost()
     {
-        return $this->postId;
+        return $this->post;
     }
 
     /**
-     * @param mixed $postId
+     * @param mixed $post
      */
-    public function setPostId($postId)
+    public function setPost($post)
     {
-        $this->postId = $postId;
+        $this->post = $post;
     }
 
     /**

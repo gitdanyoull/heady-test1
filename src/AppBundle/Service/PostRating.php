@@ -16,11 +16,11 @@ class PostRating
     private $ip;
     private $postId;
 
-    function __construct($ip,$postId,$userId)
+    function __construct($ip,$post,$user)
     {
         $this->ip = $ip;
-        $this->postId = $postId;
-        $this->userId = $userId;
+        $this->post = $post;
+        $this->user = $user;
     }
 
     public function getIp()
@@ -31,7 +31,7 @@ class PostRating
     public function getIpMessage($doctrine)
     {
         $rating_repo = $doctrine->getRepository('AppBundle:Message');
-        $rating = $rating_repo->findOneBy(array('ip'=>$this->ip,'postId'=>$this->postId,'userId'=>$this->userId));
+        $rating = $rating_repo->findOneBy(array('ip'=>$this->ip,'post'=>$this->post,'user'=>$this->user));
 
         if( $rating === null )
             return null;
