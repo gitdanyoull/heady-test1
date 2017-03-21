@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+        <div class="row">
+            <div class="col-sm-12">
+                <button class="btn btn-success pull-right" onclick="location.href='{{ path('post_new') }}';">Add Post</button><br /><br />
+            </div>
+            <div class="col-sm-12">
+
+        {% for msg in app.session.flashBag.get('success') %}
+            <div class="alert alert-success">
+                <strong>Success!</strong> Indicates a successful or positive action.
+            </div>
+        {% endfor %}
+        <table class="table table-striped">
+            {% for p in post %}
+                <tr>
+                    <td>{{p.id}}<a href="{{ path('post_edit', {'id': p.id}) }}">
+                            {{p.title}}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+            </div>
+        </div>
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}

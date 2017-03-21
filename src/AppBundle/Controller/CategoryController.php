@@ -20,8 +20,11 @@ class CategoryController extends Controller
     /**
      * @Route("/{category}/category", name="category")
      */
-    public function artistAction(Request $request){
-        return new Response('artist');
+    public function artistAction(Request $request,$category){
+
+        return $this->render('post/category.html.twig', array(
+            'post'=>$category
+        ));
     }
 
     /**

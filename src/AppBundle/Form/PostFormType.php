@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 
 use AppBundle\Entity\Artist;
 use AppBundle\Entity\Post;
+use AppBundle\Entity\Category;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Repository\ArtistRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -50,6 +51,19 @@ class PostFormType extends AbstractType
                         ->orderBy('artist.artist', 'ASC')
                     ;
                     return $list_artist;
+                },
+            ])
+            ->add('category', EntityType::class, [
+                // This wil be change depending on the value
+                'mapped' => true,
+                'required' => true,
+                'property_path' => 'category',
+                'empty_value'=>'Select Type',
+                'class'=>Category::class,
+                'choice_label'=>'category',
+                'query_builder'=> function (EntityRepository $er) {
+                    return $er->createQueryBuilder('category')
+                        ->orderBy('category.category', 'ASC');
                 },
             ])
             // For now just display the embed form, will be hidden later

@@ -1,5 +1,5 @@
 <?php
-// src/AppBundle/Entity/Artist.php
+// src/AppBundle/Entity/Cateegory.php
 
 namespace AppBundle\Entity;
 
@@ -17,7 +17,7 @@ class Category
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $categoryId;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
@@ -33,17 +33,17 @@ class Category
     /**
      * @return mixed
      */
-    public function getCategoryId()
+    public function getId()
     {
-        return $this->categoryId;
+        return $this->Id;
     }
 
     /**
      * @param mixed $categoryId
      */
-    public function setCategoryId($categoryId)
+    public function setId($Id)
     {
-        $this->categoryId = $categoryId;
+        $this->Id = $Id;
     }
 
     /**
