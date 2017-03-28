@@ -48,9 +48,10 @@
                     {%  endif %}
                 {%  endfor %}
                 <div class="caption">   
-                    <h4 class="pull-right">{{ p.post.price }}</h4>
                     <h4><a href="{{  path('post_view', {'id': p.post.id}) }}">{{ p.post.title }}</a>
                     </h4>
+                    <h4 class="pull-right">${{ p.post.price|number_format(2, '.', ',')   }}</h4>
+                    <div style="clear:both"></div>
                     {{ p.post.description }}
                 </div>
 

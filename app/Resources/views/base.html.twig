@@ -85,12 +85,10 @@
     <div class="row">
 
 
-        <div class="col-md-3">
-            <div class="list-group">
-                {% block menu %}
-                    {% include 'menu.html.twig' %}
-                {% endblock %}
-            </div>
+        <div class="col-md-3"> 
+            {% block menu %}
+                {% include 'menu.html.twig' %}
+            {% endblock %} 
         </div>
 
         <div class="col-md-9">
@@ -111,9 +109,12 @@
 <!-- /.container -->
 
 <div class="container">
-
-    <hr>
-
+{% block footer %}      
+    <hr> 
+    {% for key,value in states %}
+      <a href="{{ path('state',{'state':value} ) }}">{{ value }}</a>
+    {% endfor %}
+{% endblock %}
     <!-- Footer -->
     <footer>
         <div class="row">

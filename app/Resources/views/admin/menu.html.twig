@@ -1,8 +1,22 @@
- {% block menu %}
-    <a href="{{ path('admin_categories') }}" class="list-group-item">Categories</a> 
-    <a href="{{ path('admin_users') }}" class="list-group-item">Users</a>
-    <a href="{{ path('admin_posts') }}" class="list-group-item">Posts</a> 
-    <a href="{{ path('admin_artists') }}" class="list-group-item">Artists</a> 
+	 {% block menu %}
+
+    <div class="list-group">
+	    <a href="{{ path('admin_categories') }}" class="list-group-item">Posts</a> 
+	    <a href="{{ path('admin_users') }}" class="list-group-item">Lists</a> 
+	</div>
+
+	<div class="list-group">
+	    <a href="{{ path('admin_states') }}" class="list-group-item">States</a> 
+	    <a href="{{ path('admin_users') }}" class="list-group-item">Cities</a> 
+	</div>
+
+	<div class="list-group">
+	    <a href="{{ path('admin_categories') }}" class="list-group-item">Categories</a> 
+	    <a href="{{ path('admin_users') }}" class="list-group-item">Users</a>
+	    <a href="{{ path('admin_posts') }}" class="list-group-item">Posts</a> 
+	    <a href="{{ path('admin_artists') }}" class="list-group-item">Artists</a> 
+	</div>
+
 {% endblock %}
 
 {% block footer %}

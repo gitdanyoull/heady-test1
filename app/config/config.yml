@@ -8,6 +8,10 @@ imports:
 parameters:
     locale: en
     brochures_directory: '%kernel.root_dir%/../web/uploads/brochures'
+    states: 
+        [ Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware, District of Columbia, Florida, Georgia, Hawaii, Idaho, Illinois, Indiana, Iowa, Kansas, Kentucky, Louisiana, Maine, Maryland, Massachusetts, Michigan, Minnesota, Mississippi, Missouri, Montana, Nebraska, Nevada, New Hampshire, New Jersey, New Mexico, New York, North Carolina, North Dakota, Ohio, Oklahoma, Oregon, Pennsylvania, Rhode Island, South Carolina, South Dakota, Tennessee, Texas, Utah, Vermont, Virginia, Washington, West Virginia, Wisconsin, Wyoming ]
+    
+
 framework:
     #esi:             ~
     translator:      ~
@@ -36,6 +40,8 @@ twig:
     strict_variables: "%kernel.debug%" 
     form_theme:
         - "bootstrap_3_layout.html.twig"
+    globals:
+        states: '%states%'
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -74,7 +80,7 @@ twig:
         ga_tracking: '%ga_tracking%'
     form_themes:
             - bootstrap_3_layout.html.twig
-  
+    
 liip_imagine:
     resolvers:
         default:
