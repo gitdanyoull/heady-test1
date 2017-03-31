@@ -8,28 +8,45 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Message;
+use AppBundle\Entity\Contact;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MessageController extends Controller
+class ContactController extends Controller
 {
     /**
-     * @Route('/contact/seller', name="contact_seller")
-     * */
-    public function saveAction(Request $request, $postId)
+     * @Route("/contact/save", name="contact_save")
+     */
+    public function saveAction(Request $request)
     {
-        $data = $request->request;
-
-        $user = $this->get('security.context')->getToken()->getUser();
-        $userId = $user->getId();
-
-
-        $form = $this->createForm(new ContactFormType());
-
-        return new Response( json_encode( array('insert'=>$data) ) );
+    	$message = \Swift_Message::newInstance()
+        ->setSubject('Hello Email')
+        ->setFrom('dpsjdnl@gmail.com')
+        ->setTo('dpsjdnl@gmail.com')
+        ->setBody(
+            $this->renderView(
+                // app/Resources/views/Emails/registration.html.twig
+                'Emails/registration.html.twig',
+                array('name' => 'dan')
+            ),
+            'text/html'
+        )
+        /*
+         * If you also want to include a plaintext version of the message
+        ->addPart(
+            $this->renderView(
+                'Emails/registration.txt.twig',
+                array('name' => $name)
+            ),
+            'text/plain'
+        )
+        */
+    ;
+    echo $message;
+    $this->get('mailer')->send($message);
+        exit;
 
     }
 }

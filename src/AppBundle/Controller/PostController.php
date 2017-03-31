@@ -113,6 +113,9 @@ class PostController extends Controller
         $form = $this->createForm( new MessageFormType(), $message );
         $form->handleRequest($request); 
 
+
+        $contact = $this->createForm( new ContactFormType(), new Contact() );
+        
         if ($form->isSubmitted() && $form->isValid()) {
 
             /** @var Post $post */
@@ -139,7 +142,6 @@ class PostController extends Controller
 
         $message_form = $this->createForm( new MessageFormType(), new Message() );
 
-        $contact = $this->createForm( new ContactFormType(), new Contact() );
 
         $rating = new PostRating($request->getClientIp(),$id,$user);
 

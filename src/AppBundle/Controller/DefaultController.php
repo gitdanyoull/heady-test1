@@ -15,7 +15,7 @@ class DefaultController extends Controller
     {
         $post_repository = $this->getDoctrine()->getRepository('AppBundle:Post');
         $post= $post_repository->findAll();
-
+        
         $img_repository = $this->getDoctrine()->getRepository('AppBundle:Image');
         $row = 0;
         foreach( $post as $k => $v ){

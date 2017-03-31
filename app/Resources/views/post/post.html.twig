@@ -29,7 +29,7 @@
                 <p>{{ post.description }}</p>
                 
                 <!--JAVASCRIPT TRIGGER TO SHOW OFFER FORM-->
-                <btn type="button" class="btn btn-danger pull-right hide" id="hide_offer" onclick="javascript: void(0);">Submit an Offer</btn>
+                <btn type="button" class="btn btn-danger pull-right hide" id="switch_offer" onclick="javascript: void(0);">Submit an Offer</btn>
 
                 <btn type="button" class="btn btn-success pull-right" id="submit_offer" onclick="javascript: void(0);">Submit an Offer</btn>
 
@@ -38,7 +38,7 @@
 
         <div class="thumbnail">
             <div class="caption" id="contact_form_div" style="display: none ">
-                {{ form_start(contact) }}
+                {{ form_start(contact,{'action': path('contact_save')}) }}
                 {{ form_widget(contact) }}
                 <button type="submit" style="margin-top: 5px" class="btn btn-default" formnovalidate>Save</button>
                 {{ form_end(contact) }}
@@ -57,15 +57,15 @@
                         <span id="review_title"></span><br />
                             <span id="review_description"></span>
                     </div>
-                {% else %}
-                    {{ review.title }}<br />
-                    {{ review.message }}
-                    <div class="ratings">
-                        <div id="rateYo" class="pull-left"></div>
-                    </div>
-                {% endif %}
-            </div>
-        </div>                 
+                    {% else %}
+                        {{ review.title }}<br />
+                        {{ review.message }}
+                        <div class="ratings">
+                            <div id="rateYo" class="pull-left"></div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>                 
         {% if messages is not empty %}
         <div class="well">                      
             <div class="caption">                
@@ -137,8 +137,8 @@
             });
  
             $('#switch_offer').click(function(){
-
-                $('#hide_offer').toggleClass('hide');
+                alert('switch');
+                $('#switch_offer').toggleClass('hide');
                 $('#submit_offer').toggleClass('hide');
                 $('#contact_form_div').fadeOut( "slow", function() {
                     $('#message_form_div').fadeIn("slow");
@@ -148,7 +148,7 @@
 
             $('#submit_offer').click(function(){
 
-                $('#hide_offer').toggleClass('hide');
+                $('#switch_offer').toggleClass('hide');
                 $('#submit_offer').toggleClass('hide');
                 $('#message_form_div').fadeOut( "slow", function() {
                     $('#contact_form_div').fadeIn("slow");
