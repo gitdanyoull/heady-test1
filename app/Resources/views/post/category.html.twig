@@ -1,30 +1,85 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-        <div class="row">
-            <div class="col-sm-12">
-                <button class="btn btn-success pull-right" onclick="location.href='{{ path('post_new') }}';">Add Post</button><br /><br />
-            </div>
-            <div class="col-sm-12">
 
-        {% for msg in app.session.flashBag.get('success') %}
-            <div class="alert alert-success">
-                <strong>Success!</strong> Indicates a successful or positive action.
-            </div>
-        {% endfor %}
-        <table class="table table-striped">
-            {% for p in post %}
-                <tr>
-                    <td>{{p.id}}<a href="{{ path('post_edit', {'id': p.id}) }}">
-                            {{p.title}}</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
+    <div class="row carousel-holder">
+
+        <div class="col-md-12">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                    </div>
+                    <div class="item">
+                        <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                    </div>
+                    <div class="item">
+                        <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                    </div>
+                </div>
+
+                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
             </div>
         </div>
+
+    </div>
+
+   
+        {% set row=0 %}
+        {% for p in post %}
+            {% if row == 0 %} 
+                <div class="row">
+            {% endif %}
+            <div class="col-sm-4 col-lg-4 col-md-4">
+            
+                <div class="thumbnail">
+                    {% for i in p.images %}
+                        {%  if i.ShowDefault == 1 %}
+                            <img src="{{ asset('uploads/brochures/' ~ i.file) | imagine_filter('my_thumb') }}" />
+                        {%  endif %}
+                    {%  endfor %}
+                    <div class="caption">   
+                        <h4><a href="{{  path('post_view', {'id': p.post.id}) }}">{{ p.post.title }}</a>
+                        </h4>
+                        <h4 class="pull-right">${{ p.post.price|number_format(2, '.', ',')   }}</h4>
+                        <div style="clear:both"></div>
+                        {{ p.post.description }}
+                    </div>
+
+                    <div class="ratings">
+                        
+                        <p class="pull-right">15 reviews</p>
+                        <p>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        {% set row = row + 1 %}
+        {% if row == 3 %}
+           {% set row = 0 %} 
+           </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
 {% endblock %}
 
-{% block stylesheets %}
-
+{% block script %}
+    
 {% endblock %}

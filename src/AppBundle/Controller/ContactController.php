@@ -21,6 +21,22 @@ class ContactController extends Controller
      */
     public function saveAction(Request $request)
     {
+        $data = $request->request->get('contact_form');
+       
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userId = $user->getId();
+
+        $sale=new Contact();
+        $sale->setTitle($data['title']); 
+        $sale->setMessage($data['message']); 
+        $sale->setUserId($userId);
+        $sale->setPostId($postId);
+        $sale->setIp( $request->getClientIp() );
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->persist($sale);
+        $em->flush();
+
     	$message = \Swift_Message::newInstance()
         ->setSubject('Hello Email')
         ->setFrom('dpsjdnl@gmail.com')

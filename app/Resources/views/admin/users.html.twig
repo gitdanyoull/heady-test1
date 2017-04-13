@@ -23,7 +23,7 @@
         <table class="table table-striped">
             {% for u in users %}
                 <tr>
-                    <td>{{u.id}}<a href="{{ path('post_edit', {'id': u.id}) }}">
+                    <td>{{u.id}}<a href="{{ path('admin_user', {'id': u.id}) }}">
                             {{u.username}}</a>
                     </td>
                 </tr>

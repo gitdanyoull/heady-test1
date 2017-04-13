@@ -11,8 +11,9 @@ use AppBundle\Repository\ArtistRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType; 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -37,7 +38,7 @@ class PostFormType extends AbstractType
             ->add('price', MoneyType::class, array(
                     'currency' => 'USD',
                     'grouping' => true
-            ))
+            )) 
             ->add('artist', EntityType::class, [
                 // This wil be change depending on the value
                 'mapped' => true,

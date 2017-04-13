@@ -9,7 +9,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>{% block title %}Welcome!{% endblock %}</title>
-    {% block stylesheets %}{% endblock %}
+    {% block stylesheets %}
+    {% endblock %}
 
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/shop-homepage.css') }}" />
@@ -29,6 +30,8 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.2.0/jquery.rateyo.min.css">
 
+    {% block scripts_top %}
+    {% endblock %}
 
 </head>
 
@@ -109,12 +112,6 @@
 <!-- /.container -->
 
 <div class="container">
-{% block footer %}      
-    <hr> 
-    {% for key,value in states %}
-      <a href="{{ path('state',{'state':value} ) }}">{{ value }}</a>
-    {% endfor %}
-{% endblock %}
     <!-- Footer -->
     <footer>
         <div class="row">

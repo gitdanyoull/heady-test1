@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-
+    
     <!--IMAGE AREA-->
     <div class="col-sm-4 col-lg-4 col-md-4">
         <div class="thumbnail">
@@ -69,11 +69,11 @@
         {% if messages is not empty %}
         <div class="well">                      
             <div class="caption">                
- 
-                    {% for m in messages if m.user.id != 1 %}
+                     
+                    {% for m in messages %}
                         <div class="row">
                             <div class="col-md-12">
-                                {% if m.user.id != user_id %}
+                                
                                     {% set rate = m.rating|round %} 
                                     {% set empty = 5-rate %}
                                     {% for i in 1..rate %}
@@ -87,7 +87,8 @@
                                     <span class="pull-right"> {{ m.tstamp|date('m/d/Y') }}</span>
                                     <p>{{ m.message }}
                                         <span class="glyphicon glyphicon-pencil pull-right" id="message_comment "></span></p>
-                                {% endif %}
+                                {% if m.user.id != user_id %}{% endif %}
+                            
                             </div>
                         </div> 
                     {% endfor %}

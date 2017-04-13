@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}
+    {{  post.title }} | Item | Online Market for Glass Pipes, Vaporizers, & More At WickedHeady
+{% endblock %}
+
+{% block body %}
+
+    <!--IMAGE AREA-->
+    <div class="col-sm-4 col-lg-4 col-md-4">
+        <div class="thumbnail">
+            {% for i in images %}
+                <img src="{{ asset('uploads/brochures/' ~ i.file) | imagine_filter('my_thumb') }}" style="margin-bottom: 4px" />
+            {%  endfor %}
+
+        </div>
+    </div>
+
+    <div class="col-sm-8 col-lg-8 col-md-8">
+        <div class="row">
+            <div class="col-md-12" style="padding-bottom:20px">
+                <btn type="button" class="btn btn-success pull-right" onclick="javascript: window.location='{{ path('post_edit', {'id': post.id}) }}';">Edit Offer</btn>
+            </div>
+        </div>
+        <div class="thumbnail" >
+            <span class="glyphicon glyphicon-bookmark" style="top: -4px; left: 4px"></span>
+            <div class="caption">
+
+                <h4>{{ post.title }}</h4>
+                <h4>${{ post.price|number_format(2, '.', ',') }}</h4>
+                
+                <p>{{ post.description }}</p>
+                
+                <!--JAVASCRIPT TRIGGER TO SHOW OFFER FORM-->
+                <btn type="button" class="btn btn-danger pull-right hide" id="switch_offer" onclick="javascript: void(0);">Submit an Offer</btn>
+
+            </div>
+        </div>
+
+        <div class="thumbnail">
+            <div class="caption" id="contact_form_div" style="display: none ">
+                {{ form_start(contact,{'action': path('contact_save')}) }}
+                {{ form_widget(contact) }}
+                <button type="submit" style="margin-top: 5px" class="btn btn-default" formnovalidate>Save</button>
+                {{ form_end(contact) }}
+
+            </div>
+            <div class="caption" id="message_form_div">
+                {% if review is empty %}
+                    {{ form_start(message) }}
+                    {{ form_widget(message) }}
+                    <button type="submit" style="margin-top: 5px" class="btn btn-default" formnovalidate>Save</button>
+                    {{ form_end(message) }}
+                    <div class="ratings">
+                        <div id="rateYo" class="pull-left"></div>
+                    </div>
+                    <div class="hide">
+                        <span id="review_title"></span><br />
+                            <span id="review_description"></span>
+                    </div>
+                    {% else %}
+                        {{ review.title }}<br />
+                        {{ review.message }}
+                        <div class="ratings">
+                            <div id="rateYo" class="pull-left"></div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>                 
+        {% if messages is not empty %}
+        <div class="well">                      
+            <div class="caption">                
+ 
+                    <div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Nunc tincidunt</a></li>
+    <li><a href="#tabs-2">Proin dolor</a></li>
+    <li><a href="#tabs-3">Aenean lacinia</a></li>
+  </ul>
+  <div id="tabs-1">
+    <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+  </div>
+  <div id="tabs-2">
+    <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+  </div>
+  <div id="tabs-3">
+    <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
+    <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+  </div>
+</div> 
+
+            </div>
+
+        </div>
+        {% endif %}
+
+    </div>
+
+
+{% endblock %}
+
+{% block stylesheets %}
+  
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js">
+  
+{% endblock %}
+
+{% block scripts_top %}
+  
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+{% endblock %}

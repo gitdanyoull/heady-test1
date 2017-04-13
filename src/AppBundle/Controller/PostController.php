@@ -37,6 +37,7 @@ class PostController extends Controller
             'post'=>$post
         ));
     }
+
     /**
      * @Route("/post/new", name="post_new")
      */
@@ -142,7 +143,7 @@ class PostController extends Controller
 
         $message_form = $this->createForm( new MessageFormType(), new Message() );
 
-
+        $message_repository = $this->getDoctrine()->getRepository('AppBundle:Message');
         $rating = new PostRating($request->getClientIp(),$id,$user);
 
         $ip = $rating->getIp(); 
@@ -150,6 +151,72 @@ class PostController extends Controller
         
         // replace this example code with whatever you need
         return $this->render('post/post.html.twig', array(
+            'post'=>$post,
+            'images'=>$images,
+            'contact' => $contact->createView(),
+            'message' => $message_form->createView(),
+            'messages' => $messages,
+            'review' => $review,
+            'messages' => $messages,
+            'ip' => $ip,
+            'stars' => $stars,
+            'user_id' => $user_id
+        ));
+
+    }
+    /**
+     * @Route("/post/item/{id}", name="post_item")
+     */
+    public function itemAction(Request $request, $id)
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $user_id = '';
+        if( $user!='anon.' )
+            $user_id = $user->getId();
+        else
+            $user_id = ''; 
+            
+        $message = new Message();
+        $form = $this->createForm( new MessageFormType(), $message );
+        $form->handleRequest($request); 
+
+
+        $contact = $this->createForm( new ContactFormType(), new Contact() );
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            /** @var Post $post */
+            $message = $form->getData(); 
+            $message->setUser($user);
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($message);
+            $em->flush();
+            $this->addFlash('success', 'success');
+            return $this->redirectToRoute('post');
+        }
+
+        $post_repository = $this->getDoctrine()->getRepository('AppBundle:Post');
+        $post= $post_repository->findOneBy(array('id'=>$id));
+
+        $img_repository = $this->getDoctrine()->getRepository('AppBundle:Image');
+        $images= $img_repository->findBy( array('postId' => $post->getId()),array('showDefault' => 'DESC'));
+
+        $msg_repository = $this->getDoctrine()->getRepository('AppBundle:Message');
+        $messages = $msg_repository->findBy(array('post'=>$post->getId()));
+
+        $review = $msg_repository->findOneBy(array('post' => $post->getId(),'user'=>$user));
+
+        $message_form = $this->createForm( new MessageFormType(), new Message() );
+
+
+        $rating = new PostRating($request->getClientIp(),$id,$user);
+
+        $ip = $rating->getIp(); 
+        $stars = $rating->getRating($this->getDoctrine());
+        
+        // replace this example code with whatever you need
+        return $this->render('post/item.html.twig', array(
             'post'=>$post,
             'images'=>$images,
             'contact' => $contact->createView(),
