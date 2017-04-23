@@ -45,11 +45,11 @@
                 {%  endif %}
             {%  endfor %}
                 <div class="caption">
-                    <h4><a href="{{  path('post_view', {'id': post.post.id}) }}">{{ post.post.title }}</a>
+                    <h4><a href="{{  path('post_view', {'id': post.id}) }}">{{ post.title }}</a>
                     </h4>
-                    <h4 class="pull-right">${{ post.post.price|number_format(2, '.', ',')   }}</h4>
+                    <h4 class="pull-right">${{ post.price|number_format(2, '.', ',')   }}</h4>
                     <div style="clear:both"></div>
-                    {{ post.post.description }}
+                    {{ post.description }}
                 </div>
                 <div class="ratings">
                     <p class="pull-right">15 reviews</p>
