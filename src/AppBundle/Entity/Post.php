@@ -63,6 +63,12 @@ class Post
     private $artist;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Rating", mappedBy="post", orphanRemoval=true)
+     * @ORM\JoinColumn(name="rating_id", referencedColumnName="rating_id")
+     */
+    private $ratings;
+
+    /**
      * @return mixed
      */
     public function getId()

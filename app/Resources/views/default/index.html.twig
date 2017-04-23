@@ -39,11 +39,9 @@
     {% endif %}
         <div class="col-sm-4">
             <div class="thumbnail">
-            {% for i in post.images %}
-                {%  if i.ShowDefault == 1 %}
-                <img src="{{ asset('uploads/brochures/' ~ i.file) | imagine_filter('my_thumb') }}" />
-                {%  endif %}
-            {%  endfor %}
+                {% if post.image %}
+                <img src="{{ asset('uploads/brochures/' ~ post.image) | imagine_filter('my_thumb') }}" />
+                {% endif %}
                 <div class="caption">
                     <h4><a href="{{  path('post_view', {'id': post.id}) }}">{{ post.title }}</a>
                     </h4>
@@ -54,11 +52,9 @@
                 <div class="ratings">
                     <p class="pull-right">15 reviews</p>
                     <p>
+                        {% for i in 1..post.rating|round %}
                         <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
+                        {% endfor %}
                     </p>
                 </div>
             </div>

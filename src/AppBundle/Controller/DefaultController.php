@@ -14,7 +14,7 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $post_repository = $this->getDoctrine()->getRepository('AppBundle:Post');
-        $posts = $post_repository->findAll();
+        $posts = $post_repository->findHomePage();
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', array(
