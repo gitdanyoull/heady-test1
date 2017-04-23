@@ -10,7 +10,7 @@
     <!--IMAGE AREA-->
     <div class="col-sm-4 col-lg-4 col-md-4">
         <div class="thumbnail">
-            {% for i in images %}
+            {% for i in post.images %}
                 <img src="{{ asset('uploads/brochures/' ~ i.file) | imagine_filter('my_thumb') }}" style="margin-bottom: 4px" />
             {%  endfor %}
 
