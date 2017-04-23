@@ -33,19 +33,13 @@ class Image
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Please select an image.")
      * @Assert\File(mimeTypes = {
- *          "image/png",
- *          "image/jpeg",
- *          "image/jpg",
- *          "image/gif", 
- *      })
-
+     *          "image/png",
+     *          "image/jpeg",
+     *          "image/jpg",
+     *          "image/gif",
+     *      })
      */
     private $file;
-
-    /**
-     * @ORM\Column(type="integer", length=16)
-     */
-    private $postId;
 
     /**
      * @ORM\Column(type="integer", length=16)

@@ -24,6 +24,12 @@ class Post
     private $title;
 
     /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image", orphanRemoval=true)
+     * @ORM\JoinColumn(name="image_id", referencedColumnName="image_id")
+     */
+    private $image;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id") 
      */
@@ -86,6 +92,22 @@ class Post
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return Image
+     */
+    public function getImage()
+    {
+      return $this->image;
+    }
+
+    /**
+     * @param Image $image
+     */
+    public function setImage($image)
+    {
+      $this->image = $image;
     }
 
     /**
