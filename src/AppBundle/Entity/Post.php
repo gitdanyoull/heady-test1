@@ -24,10 +24,10 @@ class Post
     private $title;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Image", mappedBy="post", orphanRemoval=true)
      * @ORM\JoinColumn(name="image_id", referencedColumnName="image_id")
      */
-    private $image;
+    private $images;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category")

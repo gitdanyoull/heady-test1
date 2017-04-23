@@ -42,6 +42,11 @@ class Image
     private $file;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post")
+     */
+    private $post;
+
+    /**
      * @ORM\Column(type="integer", length=16)
      */
     private $showDefault;
@@ -60,21 +65,6 @@ class Image
     public function setImageId($imageId)
     {
         $this->imageId = $imageId;
-    }
-    /**
-     * @return mixed
-     */
-    public function getPostId()
-    {
-        return $this->postId;
-    }
-
-    /**
-     * @param mixed $postId
-     */
-    public function setPostId($postId)
-    {
-        $this->postId = $postId;
     }
 
     /**
@@ -140,5 +130,20 @@ class Image
         $this->file = $file;
     }
 
+    /**
+     * @return Post
+     */
+    public function getPost()
+    {
+      return $this->post;
+    }
+
+    /**
+     * @param Post $post
+     */
+    public function setPost($post)
+    {
+      $this->post = $post;
+    }
 
 }
