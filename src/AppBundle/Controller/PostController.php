@@ -133,9 +133,6 @@ class PostController extends Controller
         $post_repository = $this->getDoctrine()->getRepository('AppBundle:Post');
         $post= $post_repository->findOneBy(array('id'=>$id));
 
-        $img_repository = $this->getDoctrine()->getRepository('AppBundle:Image');
-        $images= $img_repository->findBy( array('postId' => $post->getId()),array('showDefault' => 'DESC'));
-
         $msg_repository = $this->getDoctrine()->getRepository('AppBundle:Message');
         $messages = $msg_repository->findBy(array('post'=>$post->getId()));
 
@@ -152,12 +149,10 @@ class PostController extends Controller
         // replace this example code with whatever you need
         return $this->render('post/post.html.twig', array(
             'post'=>$post,
-            'images'=>$images,
             'contact' => $contact->createView(),
             'message' => $message_form->createView(),
             'messages' => $messages,
             'review' => $review,
-            'messages' => $messages,
             'ip' => $ip,
             'stars' => $stars,
             'user_id' => $user_id
