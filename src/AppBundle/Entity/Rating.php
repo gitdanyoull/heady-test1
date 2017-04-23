@@ -90,7 +90,7 @@ class Rating
      */
     public function getUserId()
     {
-        return $this->userId;
+        return $this->user;
     }
 
     /**
