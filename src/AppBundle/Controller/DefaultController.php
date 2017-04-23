@@ -28,7 +28,7 @@ class DefaultController extends Controller
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', array(
-            'post'=>$glass,
+            'posts'=>$glass,
         ));
     }
 }
