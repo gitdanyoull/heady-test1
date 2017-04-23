@@ -190,19 +190,31 @@ class Post
         $this->artist = $artist;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
+  /**
+   * @return mixed
+   */
+  public function getImages() {
+    return $this->images;
+  }
 
-    /**
-     * @param mixed $category
-     */
-    public function setCategory($category)
-    {
-        $this->category = $category;
-    }
+  /**
+   * @param mixed $images
+   */
+  public function setImages($images) {
+    $this->images = $images;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getCategory() {
+    return $this->category;
+  }
+
+  /**
+   * @param mixed $category
+   */
+  public function setCategory($category) {
+    $this->category = $category;
+  }
 }
