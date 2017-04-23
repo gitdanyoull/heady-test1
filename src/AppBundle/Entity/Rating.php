@@ -35,7 +35,7 @@ class Rating
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="ratings")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
     private $post;
