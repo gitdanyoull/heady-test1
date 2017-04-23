@@ -54,14 +54,6 @@ class Rating
     }
 
     /**
-     * @param mixed $ratinId
-     */
-    public function setRatingId($ratingId)
-    {
-        $this->ratingId = $ratingId;
-    }
-
-    /**
      * @return mixed
      */
     public function getRating()
