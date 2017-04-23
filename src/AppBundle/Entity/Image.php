@@ -42,7 +42,8 @@ class Image
     private $file;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="images")
+     * inversedBy=images
      */
     private $post;
 
