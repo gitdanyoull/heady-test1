@@ -18,6 +18,7 @@ class DefaultController extends Controller
         
         $img_repository = $this->getDoctrine()->getRepository('AppBundle:Image');
         $row = 0;
+        $glass = array();
         foreach( $post as $k => $v ){
             $images= $img_repository->findBy( array('postId' => $v->getId() ));
             $glass[$row]['post']=$v;
@@ -27,7 +28,6 @@ class DefaultController extends Controller
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', array(
-            'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'post'=>$glass,
         ));
     }
