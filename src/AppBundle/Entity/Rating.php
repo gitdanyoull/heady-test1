@@ -106,7 +106,7 @@ class Rating
      */
     public function getPostId()
     {
-        return $this->postId;
+        return $this->post;
     }
 
     /**
