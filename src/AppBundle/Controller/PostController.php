@@ -103,7 +103,7 @@ class PostController extends Controller
      */
     public function viewAction(Request $request, $id)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
         $user_id = '';
         if( $user!='anon.' )
             $user_id = $user->getId();
