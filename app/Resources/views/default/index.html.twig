@@ -50,7 +50,13 @@
                     {{ post.description }}
                 </div>
                 <div class="ratings">
-                    <p class="pull-right">15 reviews</p>
+                    <p class="pull-right">
+                        {% transchoice post.review_count %}
+                        {0} There are no review|
+                        {1} There is one review|
+                        ]1,Inf[ There are post.review_count reviews
+                        {% endtranschoice %}
+                    </p>
                     <p>
                         {% for i in 1..post.rating|round %}
                         <span class="glyphicon glyphicon-star"></span>
