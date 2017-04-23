@@ -70,6 +70,12 @@ class Post
     private $ratings;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Message", mappedBy="post", orphanRemoval=true)
+     * @ORM\JoinColumn(name="message_id", referencedColumnName="message_id")
+     */
+    private $messages;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -223,5 +229,33 @@ class Post
    */
   public function setCategory($category) {
     $this->category = $category;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getRatings() {
+    return $this->ratings;
+  }
+
+  /**
+   * @param mixed $ratings
+   */
+  public function setRatings($ratings) {
+    $this->ratings = $ratings;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getMessages() {
+    return $this->messages;
+  }
+
+  /**
+   * @param mixed $messages
+   */
+  public function setMessages($messages) {
+    $this->messages = $messages;
   }
 }
