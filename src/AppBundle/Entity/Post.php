@@ -26,7 +26,7 @@ class Post
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Image", mappedBy="post", orphanRemoval=true)
      * @ORM\JoinColumn(name="image_id", referencedColumnName="image_id")
-     * @ORM\OrderBy({"show_default" = "DESC"})
+     * @ORM\OrderBy({"showDefault" = "DESC"})
      */
     private $images;
 
