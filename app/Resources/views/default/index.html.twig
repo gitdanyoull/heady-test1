@@ -33,50 +33,42 @@
         </div>
 
     </div>
-
-   
-        {% set row=0 %}
-        {% for p in post %}
-            {% if row == 0 %} 
-                <div class="row">
-            {% endif %}
-            <div class="col-sm-4 col-lg-4 col-md-4">
-            
-                <div class="thumbnail">
-                    {% for i in p.images %}
-                        {%  if i.ShowDefault == 1 %}
-                            <img src="{{ asset('uploads/brochures/' ~ i.file) | imagine_filter('my_thumb') }}" />
-                        {%  endif %}
-                    {%  endfor %}
-                    <div class="caption">   
-                        <h4><a href="{{  path('post_view', {'id': p.post.id}) }}">{{ p.post.title }}</a>
-                        </h4>
-                        <h4 class="pull-right">${{ p.post.price|number_format(2, '.', ',')   }}</h4>
-                        <div style="clear:both"></div>
-                        {{ p.post.description }}
-                    </div>
-
-                    <div class="ratings">
-                        
-                        <p class="pull-right">15 reviews</p>
-                        <p>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                        </p>
-                    </div>
+{% for post in posts %}
+    {% if loop.first or 0 == loop.index0 % 3 %}
+    <div class="row">
+    {% endif %}
+        <div class="col-sm-4">
+            <div class="thumbnail">
+                {% if post.image %}
+                <img src="{{ asset('uploads/brochures/' ~ post.image) | imagine_filter('my_thumb') }}" />
+                {% endif %}
+                <div class="caption">
+                    <h4><a href="{{  path('post_view', {'id': post.id}) }}">{{ post.title }}</a>
+                    </h4>
+                    <h4 class="pull-right">${{ post.price|number_format(2, '.', ',')   }}</h4>
+                    <div style="clear:both"></div>
+                    {{ post.description }}
                 </div>
-
+                <div class="ratings">
+                    <p class="pull-right">
+                        {% transchoice post.review_count %}
+                        {0} There are no review|
+                        {1} There is one review|
+                        ]1,Inf[ There are post.review_count reviews
+                        {% endtranschoice %}
+                    </p>
+                    <p>
+                        {% for i in 1..post.rating|round %}
+                        <span class="glyphicon glyphicon-star"></span>
+                        {% endfor %}
+                    </p>
+                </div>
             </div>
-        {% set row = row + 1 %}
-        {% if row == 3 %}
-           {% set row = 0 %} 
-           </div>
-        {% endif %}
-        {% endfor %}
+        </div>
+    {% if loop.last or 0 == loop.index % 3 %}
     </div>
+    {% endif %}
+{% endfor %}
 
 {% endblock %}
 

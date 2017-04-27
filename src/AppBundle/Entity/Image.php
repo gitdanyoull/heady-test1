@@ -33,19 +33,19 @@ class Image
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Please select an image.")
      * @Assert\File(mimeTypes = {
- *          "image/png",
- *          "image/jpeg",
- *          "image/jpg",
- *          "image/gif", 
- *      })
-
+     *          "image/png",
+     *          "image/jpeg",
+     *          "image/jpg",
+     *          "image/gif",
+     *      })
      */
     private $file;
 
     /**
-     * @ORM\Column(type="integer", length=16)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="images")
+     * inversedBy=images
      */
-    private $postId;
+    private $post;
 
     /**
      * @ORM\Column(type="integer", length=16)
@@ -66,21 +66,6 @@ class Image
     public function setImageId($imageId)
     {
         $this->imageId = $imageId;
-    }
-    /**
-     * @return mixed
-     */
-    public function getPostId()
-    {
-        return $this->postId;
-    }
-
-    /**
-     * @param mixed $postId
-     */
-    public function setPostId($postId)
-    {
-        $this->postId = $postId;
     }
 
     /**
@@ -146,5 +131,20 @@ class Image
         $this->file = $file;
     }
 
+    /**
+     * @return Post
+     */
+    public function getPost()
+    {
+      return $this->post;
+    }
+
+    /**
+     * @param Post $post
+     */
+    public function setPost($post)
+    {
+      $this->post = $post;
+    }
 
 }

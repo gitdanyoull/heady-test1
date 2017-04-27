@@ -35,7 +35,7 @@ class Rating
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="ratings")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
     private $post;
@@ -51,14 +51,6 @@ class Rating
     public function getRatingId()
     {
         return $this->ratingId;
-    }
-
-    /**
-     * @param mixed $ratinId
-     */
-    public function setRatingId($ratingId)
-    {
-        $this->ratingId = $ratingId;
     }
 
     /**
@@ -98,7 +90,7 @@ class Rating
      */
     public function getUserId()
     {
-        return $this->userId;
+        return $this->user;
     }
 
     /**
@@ -114,7 +106,7 @@ class Rating
      */
     public function getPostId()
     {
-        return $this->postId;
+        return $this->post;
     }
 
     /**

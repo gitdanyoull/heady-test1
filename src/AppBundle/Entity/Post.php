@@ -24,6 +24,13 @@ class Post
     private $title;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Image", mappedBy="post", orphanRemoval=true)
+     * @ORM\JoinColumn(name="image_id", referencedColumnName="image_id")
+     * @ORM\OrderBy({"showDefault" = "DESC"})
+     */
+    private $images;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id") 
      */
@@ -57,6 +64,18 @@ class Post
     private $artist;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Rating", mappedBy="post", orphanRemoval=true)
+     * @ORM\JoinColumn(name="rating_id", referencedColumnName="rating_id")
+     */
+    private $ratings;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Message", mappedBy="post", orphanRemoval=true)
+     * @ORM\JoinColumn(name="message_id", referencedColumnName="message_id")
+     */
+    private $messages;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -86,6 +105,22 @@ class Post
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return Image
+     */
+    public function getImage()
+    {
+      return $this->image;
+    }
+
+    /**
+     * @param Image $image
+     */
+    public function setImage($image)
+    {
+      $this->image = $image;
     }
 
     /**
@@ -168,19 +203,59 @@ class Post
         $this->artist = $artist;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
+  /**
+   * @return mixed
+   */
+  public function getImages() {
+    return $this->images;
+  }
 
-    /**
-     * @param mixed $category
-     */
-    public function setCategory($category)
-    {
-        $this->category = $category;
-    }
+  /**
+   * @param mixed $images
+   */
+  public function setImages($images) {
+    $this->images = $images;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getCategory() {
+    return $this->category;
+  }
+
+  /**
+   * @param mixed $category
+   */
+  public function setCategory($category) {
+    $this->category = $category;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getRatings() {
+    return $this->ratings;
+  }
+
+  /**
+   * @param mixed $ratings
+   */
+  public function setRatings($ratings) {
+    $this->ratings = $ratings;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getMessages() {
+    return $this->messages;
+  }
+
+  /**
+   * @param mixed $messages
+   */
+  public function setMessages($messages) {
+    $this->messages = $messages;
+  }
 }

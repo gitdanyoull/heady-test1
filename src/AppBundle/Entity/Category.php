@@ -39,14 +39,6 @@ class Category
     }
 
     /**
-     * @param mixed $categoryId
-     */
-    public function setId($Id)
-    {
-        $this->Id = $Id;
-    }
-
-    /**
      * @return mixed
      */
     public function getCategory()

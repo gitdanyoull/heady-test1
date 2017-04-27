@@ -14,21 +14,11 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $post_repository = $this->getDoctrine()->getRepository('AppBundle:Post');
-        $post= $post_repository->findAll();
-        
-        $img_repository = $this->getDoctrine()->getRepository('AppBundle:Image');
-        $row = 0;
-        foreach( $post as $k => $v ){
-            $images= $img_repository->findBy( array('postId' => $v->getId() ));
-            $glass[$row]['post']=$v;
-            $glass[$row]['images']=$images;
-            ++$row;
-        }
+        $posts = $post_repository->findHomePage();
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', array(
-            'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-            'post'=>$glass,
+            'posts' => $posts,
         ));
     }
 }

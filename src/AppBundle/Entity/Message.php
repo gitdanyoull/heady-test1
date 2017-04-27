@@ -46,7 +46,7 @@ class Message
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="messages")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
     private $post;

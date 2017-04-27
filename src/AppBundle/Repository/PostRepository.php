@@ -7,6 +7,23 @@ use Doctrine\ORM\EntityRepository;
 
 class PostRepository extends EntityRepository
 {
+    public function findHomePage()
+    {
+      return $this->getEntityManager()
+        ->createQuery(
+          'SELECT 
+            p.id, p.title, p.description, p.price, 
+            AVG(r.rating) as rating, images.file as image, COUNT(m.messageId) as review_count
+          FROM AppBundle:Post p
+          LEFT JOIN p.ratings r
+          LEFT JOIN p.images images WITH images.showDefault = 1
+          LEFT JOIN p.messages m
+          GROUP BY p.id
+          '
+        )
+        ->getResult();
+    }
+
     public function findAllByPostWithRating()
     {
         return $this->getEntityManager()
